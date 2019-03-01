@@ -4,4 +4,4 @@ altmetric==1.0
 requests==2.20.1
 pandas==0.23.3
 python_dateutil==2.8.0
-PyYAML==3.13
+PyYAML>=4.2b1
