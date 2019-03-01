@@ -28,7 +28,7 @@ for query in config['queries'].keys():
 
     out_columns = ["pmid", "doi", "am_resp", "am_err", "ts"]
 
-    f = open(str(output_dir / query / "altmetrics_raw.csv"), "a")
+    f = open(str(output_dir / query / "altmetrics.csv"), "a")
     csv_writer = csv.writer(f)
     csv_writer.writerow(out_columns)
 
