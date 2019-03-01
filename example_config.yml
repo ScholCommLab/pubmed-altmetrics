@@ -1,6 +1,32 @@
+# Specify your Pubmed queries
+# You can verify your queries using Pubmed's advnaces search interface at https://www.ncbi.nlm.nih.gov/pubmed/advanced
+# NOTE: queries can NOT be longer than 2000 characters
 queries:
-  query1: >-
-    "any Pubmed query"
+  example_query: cancer[tw] AND blood[tw]
 
+# The fields you want to retrieve from Altmetric
+# More information can be found here: https://docs.google.com/spreadsheets/d/1ndVY8Q2LOaZO_P_HDmSQulagjeUrS250mAL2N5V8GvY/edit#gid=0
+# the left key is the name of columns in the output CSV while the value is the corresponding name in Altmetric's database
+altmetric_fields:
+  twitter_am: cited_by_tweeters_count
+  facebook_am: cited_by_fbwalls_count
+  reddit_am: cited_by_rdts_count
+  wiki_am: cited_by_wikipedia_count
+
+# The fields you want to retrieve from Paperbuzz
+# The left key is again naming the column in the output, while the right value corresponds to the source_id of event types in Crossref Event Data.
+# See the example for Twitter: https://www.eventdata.crossref.org/guide/sources/twitter/
+paperbuzz_fields:
+  wiki_ced: wikipedia
+  twitter_ced: twitter
+  reddit_ced: reddit
+  reddit-links_ced: reddit-links
+
+# Provide your personal Altmetric API key
 keys:
   altmetric: 
+
+# Provide your contact details for the Paperbuzz API
+contact:
+  name: 
+  email: 
