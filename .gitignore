@@ -1,5 +1,6 @@
 config.yml
 data/*
+!data/README
 .Rhistory
 
 # Byte-compiled / optimized / DLL files
