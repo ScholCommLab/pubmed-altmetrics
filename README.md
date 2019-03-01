@@ -8,9 +8,9 @@ For each specified Pubmed query the whole pipeline will thus produce a single sp
 The processing pipeline:
 
 1. Collect papers from Pubmed based on query. This step also produces a new timestamped folder for the results. The following steps _**will always be applied to the newest data collection**_ (i.e. newest folder) available. Thus, make sure to have the correct folders and files in the data folder.
-   A. Retrieve available metrics from Altmetric based on PMID
-   B. Retrieve available metrics from Paperbuzz based on DOI
-   C. Merge results into one single spreadsheet
+2. Retrieve available metrics from Altmetric based on PMID
+3. Retrieve available metrics from Paperbuzz based on DOI
+4. Merge results into one single spreadsheet
 
 ## Instructions
 
