@@ -19,7 +19,7 @@ if __name__ == "__main__":
     data_dir = Path("../data/")
 
     # choose most recent crawl
-    folders = list(data_dir.glob("*"))
+    folders = list(data_dir.glob("*_*"))
     times = [datetime.strptime(folder.name, "%Y%m%d_%H%M%S") for folder in folders]
     base_dir = folders[times.index(max(times))]
 
@@ -47,7 +47,7 @@ if __name__ == "__main__":
         ced_input = pd.read_csv(base_dir / query / "paperbuzz.csv",
                                 na_values="None", index_col="pmid")
 
-        f = open(str(output_dir / query) + ".csv", "w")
+        f = open(str(output_dir / query) + "_metrics.csv", "w")
         csv_writer = csv.writer(f)
         csv_writer.writerow(out_columns)
 

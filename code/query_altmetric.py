@@ -18,13 +18,14 @@ altmetric = Altmetric(ALTMETRIC_KEY)
 data_dir = Path("../data/")
 
 # choose most recent crawl
-folders = list(data_dir.glob("*"))
+folders = list(data_dir.glob("*_*"))
 times = [datetime.strptime(folder.name, "%Y%m%d_%H%M%S") for folder in folders]
 output_dir = folders[times.index(max(times))]
 
 # iterate over each query in config and collect altmetrics
 for query in config['queries'].keys():
     input_df = pd.read_csv(output_dir / query / "articles.csv")
+    input_df = input_df[input_df.error.isna()]
 
     out_columns = ["pmid", "doi", "am_resp", "am_err", "ts"]
 

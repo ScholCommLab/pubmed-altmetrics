@@ -14,12 +14,21 @@ with open('../config.yml', 'r') as f:
 data_dir = Path("../data/")
 
 # choose most recent crawl
-folders = list(data_dir.glob("*"))
+folders = list(data_dir.glob("*_*"))
 times = [datetime.strptime(folder.name, "%Y%m%d_%H%M%S") for folder in folders]
 base_dir = folders[times.index(max(times))]
 
-output_dir = base_dir / "results"
 
-pcor1 = pd.read_csv(output_dir / "PCOR1.csv")
-pcor2 = pd.read_csv(output_dir / "PCOR2.csv")
-pd.concat([pcor1, pcor2], ignore_index=True).to_csv(output_dir / "PCOR.csv", index=False)
+# Merge metadata files
+pcor1_meta = pd.read_csv(base_dir / "PCOR1/articles.csv")
+pcor2_meta = pd.read_csv(base_dir / "PCOR2/articles.csv")
+pcor_meta = pd.concat([pcor1_meta, pcor2_meta])
+pcor_meta = pcor_meta.drop_duplicates(subset="pmid")
+pcor_meta.to_csv(base_dir / "results/PCOR_metadata.csv", index=False)
+
+# Merge metrics
+pcor1_metrics = pd.read_csv(base_dir / "results/PCOR1_metrics.csv")
+pcor2_metrics = pd.read_csv(base_dir / "results/PCOR2_metrics.csv")
+pcor_metrics = pd.concat([pcor1_metrics, pcor2_metrics])
+pcor_metrics = pcor_metrics.drop_duplicates(subset="pmid")
+pcor_metrics.to_csv(base_dir / "results/PCOR_metrics.csv", index=False)
