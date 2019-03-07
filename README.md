@@ -21,11 +21,12 @@ To run the code you require Python 3 and R installed on your system. Python requ
 Create a copy of `example_config.yml` and rename it to `config.yml`.
 
 1. Define your Pubmed queries.
-2. Specify which metrics should be exported from the Altmetric/Paperbuzz results
+2. Define the queries that need to be merged together. The entrez API does has a character limit for URLs, thus, some longer Pubmed queries need to broken down into separate sub-queries, even if the long query is working for the advanced search interface.
+3. Specify which metrics should be exported from the Altmetric/Paperbuzz results
    - **Altmetric**: The names of (most) available fields can be found in this [spreadsheet](https://docs.google.com/spreadsheets/d/1ndVY8Q2LOaZO_P_HDmSQulagjeUrS250mAL2N5V8GvY/edit#gid=0). The key in the YAML config corresponds to the desired name of the metric in the output CSV. _You can choose the name of the key!_ The value on the other hand corresponds to the name of the field within Altmetric's database (you can find them in the link above)
    - **Paperbuzz/CED**: Once again, _you can name the key as you wish_. In this case, the value should be one of the available `source_id`s defined in the Crossref Event Data docs. For example, The [CED docs page for Twitter](https://www.eventdata.crossref.org/guide/sources/twitter/) shows that the `source_id` for Twitter is `twitter`. 
-3. Provide your altmetric key to access their API
-4. Provide contact details for the Paperbuzz API (which is free)
+4. Provide your altmetric key to access their API
+5. Provide contact details for the Paperbuzz API (which is free)
 
 ### Running the code
 

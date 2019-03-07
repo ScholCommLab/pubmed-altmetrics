@@ -17,18 +17,21 @@ data_dir = Path("../data/")
 folders = list(data_dir.glob("*_*"))
 times = [datetime.strptime(folder.name, "%Y%m%d_%H%M%S") for folder in folders]
 base_dir = folders[times.index(max(times))]
+results_dir = base_dir / "results"
 
+for merge, queries in config['query_merges'].items():
+    # Merge Metadata
+    dfs = []
+    for query in queries:
+        dfs.append(pd.read_csv(base_dir / query / "articles.csv"))
+    df_meta = pd.concat(dfs)
+    df_meta = df_meta.drop_duplicates(subset="pmid")
+    df_meta.to_csv(results_dir / "{}_metadata.csv".format(merge), index=False)
 
-# Merge metadata files
-pcor1_meta = pd.read_csv(base_dir / "PCOR1/articles.csv")
-pcor2_meta = pd.read_csv(base_dir / "PCOR2/articles.csv")
-pcor_meta = pd.concat([pcor1_meta, pcor2_meta])
-pcor_meta = pcor_meta.drop_duplicates(subset="pmid")
-pcor_meta.to_csv(base_dir / "results/PCOR_metadata.csv", index=False)
-
-# Merge metrics
-pcor1_metrics = pd.read_csv(base_dir / "results/PCOR1_metrics.csv")
-pcor2_metrics = pd.read_csv(base_dir / "results/PCOR2_metrics.csv")
-pcor_metrics = pd.concat([pcor1_metrics, pcor2_metrics])
-pcor_metrics = pcor_metrics.drop_duplicates(subset="pmid")
-pcor_metrics.to_csv(base_dir / "results/PCOR_metrics.csv", index=False)
+    # Merge metrics
+    dfs = []
+    for query in queries:
+        dfs.append(pd.read_csv(results_dir / "{}_metrics.csv".format(query)))
+    df_metrics = pd.concat(dfs)
+    df_metrics = df_metrics.drop_duplicates(subset="pmid")
+    df_metrics.to_csv(results_dir / "{}_metrics.csv".format(merge), index=False)
