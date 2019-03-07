@@ -6,10 +6,9 @@ queries:
   subquery1: cancer[tw] AND blood[tw] NOT heart[tw]
   subquery2: cancer[tw] AND blood[tw] AND English[lang]
 
-
 # Define queries that need to be merged at the end
 # Name of the main query files: [sub-query1, sub-query2, sub-query3]
-query_merges:
+subqueries:
   example_query2: ['subquery1', 'subquery2']
 
 # The fields you want to retrieve from Altmetric

@@ -23,9 +23,7 @@ if __name__ == "__main__":
     times = [datetime.strptime(folder.name, "%Y%m%d_%H%M%S") for folder in folders]
     base_dir = folders[times.index(max(times))]
 
-    output_dir = base_dir / "results"
-    if not os.path.exists(str(output_dir)):
-        os.makedirs(str(output_dir))
+    output_dir = base_dir
 
     # Basic columns
     out_columns = ["pmid", "doi", "pub_year", "altmetric_id",
@@ -47,7 +45,7 @@ if __name__ == "__main__":
         ced_input = pd.read_csv(base_dir / query / "paperbuzz.csv",
                                 na_values="None", index_col="pmid")
 
-        f = open(str(output_dir / query) + "_metrics.csv", "w")
+        f = open(str(output_dir / query / "metrics.csv"), "w")
         csv_writer = csv.writer(f)
         csv_writer.writerow(out_columns)
 
