@@ -1,15 +1,11 @@
 # Specify your Pubmed queries
 # You can verify your queries using Pubmed's advnaces search interface at https://www.ncbi.nlm.nih.gov/pubmed/advanced
 # NOTE: queries can NOT be longer than 2000 characters
-queries:
+pubmed_queries:
   example_query1: cancer[tw] AND blood[tw]
-  subquery1: cancer[tw] AND blood[tw] NOT heart[tw]
-  subquery2: cancer[tw] AND blood[tw] AND English[lang]
-
-# Define queries that need to be merged at the end
-# Name of the main query files: [sub-query1, sub-query2, sub-query3]
-subqueries:
-  example_query2: ['subquery1', 'subquery2']
+  example_subqueries:
+    - cancer[tw] AND blood[tw] NOT heart[tw]
+    - cancer[tw] AND blood[tw] AND English[lang]
 
 # The fields you want to retrieve from Altmetric
 # More information can be found here: https://docs.google.com/spreadsheets/d/1ndVY8Q2LOaZO_P_HDmSQulagjeUrS250mAL2N5V8GvY/edit#gid=0

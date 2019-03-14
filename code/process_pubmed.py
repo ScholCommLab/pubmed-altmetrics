@@ -1,26 +1,33 @@
+# !/usr/local/bin/python
+# -*- coding: utf-8 -*-
 import csv
 import json
+import logging
 from datetime import datetime
 from pathlib import Path
+from pprint import pprint
 
 import numpy as np
 import pandas as pd
 import yaml
 from tqdm import tqdm
 
-from pprint import pprint
+from helpers import load_config, select_basedir
 
-with open('../config.yml', 'r') as f:
-    config = yaml.load(f)
+# Init logging
+logging.basicConfig(level=logging.INFO,
+                    format="%(asctime)s - %(levelname)s - %(message)s")
 
+# Init
+logging.info('Initialise configuration')
 data_dir = Path("../data/")
+config = load_config("../config.yml")
 
-# choose most recent crawl
-folders = list(data_dir.glob("*_*"))
-times = [datetime.strptime(folder.name, "%Y%m%d_%H%M%S") for folder in folders]
-output_dir = folders[times.index(max(times))]
+output_dir = select_basedir(data_dir)
 
+# Process each query
 for query in config['queries'].keys():
+    logging.info("Process JSONs from Pubmed for '{}'".format(query))
     temp_dir = output_dir / query / "temp/"
     outfile = output_dir / query / "articles.csv"
 
@@ -35,9 +42,9 @@ for query in config['queries'].keys():
     csv_writer = csv.writer(f, delimiter=",")
     csv_writer.writerow(outcolumns)
 
-    for file in tqdm(tempfiles):
+    for file in tempfiles:
         df = pd.read_json(file, orient="index")
-        for ix, record in tqdm(df.iterrows(), leave=False):
+        for ix, record in df.iterrows():
             field_vals = {k: None for k in outcolumns}
 
             if pd.isna(record['MedlineCitation']):
@@ -56,7 +63,7 @@ for query in config['queries'].keys():
                         field_vals['doi'] = v['text'][0]
                     if 'pubmed' in v['.attrs']:
                         field_vals['pmid'] = v['text'][0]
-                
+
                 # Title
                 try:
                     field_vals['title'] = medline_data['ArticleTitle'][0]
