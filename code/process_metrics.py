@@ -22,21 +22,19 @@ config = load_config("../config.yml")
 data_dir = Path("../data/")
 base_dir = select_basedir(data_dir)
 
-
 # Create new dirs
 results_dir = base_dir / "results"
 if not os.path.exists(str(results_dir)):
     os.makedirs(str(results_dir))
-
-# Basic columns
-out_columns = ["pmid", "doi", "pub_year", "altmetric_id",
-               "altmetric_queried", "paperbuzz_queried"]
 
 # Metrics and fields to be exported
 am_metrics = config['altmetric_fields']
 ced_metrics = config['paperbuzz_fields']
 
 # Add metrics to the columns
+# Basic columns
+out_columns = ["pmid", "doi", "pub_year", "altmetric_id",
+               "altmetric_queried", "paperbuzz_queried"]
 sorted_am_metrics = sorted(am_metrics.keys())
 sorted_ced_metrics = sorted(ced_metrics.keys())
 out_columns = out_columns + sorted_am_metrics + sorted_ced_metrics
@@ -44,7 +42,7 @@ out_columns = out_columns + sorted_am_metrics + sorted_ced_metrics
 logging.info('Processing article metrics ...')
 for query in config['queries'].keys():
     articles = pd.read_csv(base_dir / query / "articles.csv", na_values="None")
-    am_input = pd.read_csv(base_dir / query / "altmetrics.csv",
+    am_input = pd.read_csv(base_dir / query / "altmetric.csv",
                            na_values="None", index_col="pmid")
     ced_input = pd.read_csv(base_dir / query / "paperbuzz.csv",
                             na_values="None", index_col="pmid")
