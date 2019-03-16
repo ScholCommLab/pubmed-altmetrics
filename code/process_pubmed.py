@@ -136,7 +136,7 @@ for query in config['queries'].keys():
                                     for k, v in mesh_item.items() if k != "DescriptorName"]
                         mesh_object[desc] = qual
 
-                field_vals['mesh_object'] = mesh_object
+                field_vals['mesh_terms'] = mesh_object
 
                 # Publicatoin
                 try:

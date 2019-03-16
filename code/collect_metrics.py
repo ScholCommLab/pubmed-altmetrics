@@ -18,7 +18,7 @@ METRICS_COLUMNS = ["pmid", "doi", "resp", "err", "ts"]
 
 # Init logging
 logging.basicConfig(level=logging.INFO,
-                    format="%(asctime)s - %(levelname)s - %(message)s")
+                    format="%(asctime)s - %(message)s")
 
 # Init
 logging.info('Initialise configuration')
@@ -31,20 +31,18 @@ ALTMETRIC_KEY = config['keys']['altmetric']
 altmetric = Altmetric(ALTMETRIC_KEY)
 paperbuzz = PaperbuzzAPI(config['contact']['email'])
 
-
+logging.info('Iterating over each query')
 for idx, query in enumerate(config['queries'].keys()):
     input_df = pd.read_csv(output_dir / query / "articles.csv")
     input_df = input_df[input_df.error.isna()]
 
     # Query Paperbuzz API
+    logging.info('Collecting Paperbuzz metrics for {}'.format(query))
     with open(str(output_dir / query / "paperbuzz.csv"), "w") as f:
         csv_writer = csv.writer(f)
         csv_writer.writerow(METRICS_COLUMNS)
 
-        for pmid, doi in tqdm(zip(input_df.pmid, input_df.doi),
-                              total=len(input_df),
-                              desc="Query {} | Paperbuzz".format(idx),
-                              bar_format="{desc:<20} {percentage:3.0f}%|{bar}{r_bar}"):
+        for pmid, doi in tqdm(zip(input_df.pmid, input_df.doi), total=len(input_df)):
             now = datetime.now()
 
             try:
@@ -58,14 +56,12 @@ for idx, query in enumerate(config['queries'].keys()):
             csv_writer.writerow(row)
 
     # Query Altmetric API
+    logging.info('Collecting Altmetric.com metrics for {}'.format(query))
     with open(str(output_dir / query / "altmetric.csv"), "w") as f:
         csv_writer = csv.writer(f)
         csv_writer.writerow(METRICS_COLUMNS)
 
-        for pmid, doi in tqdm(zip(input_df.pmid, input_df.doi),
-                              total=len(input_df),
-                              desc="Query {} | Altmetric".format(idx),
-                              bar_format="{desc:<20} {percentage:3.0f}%|{bar}{r_bar}"):
+        for pmid, doi in tqdm(zip(input_df.pmid, input_df.doi), total=len(input_df)):
             now = datetime.now()
 
             try:
